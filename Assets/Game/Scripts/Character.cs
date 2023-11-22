@@ -29,6 +29,11 @@ namespace Game.Scripts
 
         public Transform Anchor => _anchor;
 
+        private void OnValidate()
+        {
+            _soundEffect ??= FindObjectOfType<PlaySound>();
+        }
+
 
         private void Start()
         {
@@ -43,7 +48,7 @@ namespace Game.Scripts
         private void OnHealthDeath()
         {
             Debug.Log($"{GetType().Name}.OnHealthDeath:");
-
+            if (_soundEffect) _soundEffect.PlaySoundEffect("Die");
             _animator.SetTrigger("Die");
         }
 
@@ -53,12 +58,17 @@ namespace Game.Scripts
             Debug.Log($"{GetType().Name}.Attack: gameObject.name = {gameObject.name} => {attackedCharacter.gameObject.name}");
 
             if (_attackEffect) _attackEffect.GetComponent<Animation>().Play();
-            if (_soundEffect) _soundEffect.PlaySoundEffect("AttackSound");
-            
+
+            if (_weapon.Type == WeaponType.Gun)
+            {
+                if (_soundEffect) _soundEffect.PlaySoundEffect("PistolShoot");
+            }
+
             var originalPosition = transform.position;
             if (_weapon.Type == WeaponType.Bat)
             {
                 yield return MoveTo(attackedCharacter.Anchor.position);
+                if (_soundEffect) _soundEffect.PlaySoundEffect("BaseballBatHit");
             }
 
             var animationName = WeaponHelpers.GetAnimationNameFor(_weapon.Type);
@@ -100,7 +110,9 @@ namespace Game.Scripts
                     effect.Play();
                 }
             }
-            
+
+            if (_soundEffect) _soundEffect.PlaySoundEffect("Hit");
+
             _health.TakeDamage(damage);
         }
     }

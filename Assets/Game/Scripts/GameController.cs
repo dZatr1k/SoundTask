@@ -15,6 +15,8 @@ namespace Game.Scripts
         [SerializeField]
         private Weapon _sniperRifle;
 
+        [SerializeField] private PlaySound _soundEffect;
+
         private Queue _turns = new Queue();
 
         private Character _selectedTarget;
@@ -94,11 +96,13 @@ namespace Game.Scripts
         private void GameWon()
         {
             Debug.Log($"{GetType().Name}.GameWon:");
+            _soundEffect.PlaySoundEffect("Win");
         }
 
         private void GameLost()
         {
             Debug.Log($"{GetType().Name}.GameLost:");
+            _soundEffect.PlaySoundEffect("Lose");
         }
 
         private IEnumerable GetTurns()

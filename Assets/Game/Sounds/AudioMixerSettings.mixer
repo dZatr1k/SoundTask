@@ -137,6 +137,8 @@ AudioMixerController:
   m_ExposedParameters:
   - guid: 4cc7e0384ad8dba4c9199cc1e1f8acb7
     name: Background
+  - guid: f230cdac233a0c849864f97a6c31db61
+    name: Sounds
   m_AudioMixerGroupViews:
   - guids:
     - d322cc1250da22c469574e2a785f4e0a
